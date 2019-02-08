@@ -92,6 +92,8 @@ class NetViz:
         """Compute softmax values for each sets of scores in x."""
         e_x = np.exp(x - np.max(x))
         return e_x / e_x.sum(axis=0) # only difference
+    def printdummy(self):
+        return "Hello"
     def getLabel(self,y):
         one = [0, 1]
         zer = [1 , 0]
