@@ -410,7 +410,7 @@ class NetViz:
         return dot, A, graph
     
     
-    def vispredictwithlabel(self,nm, x, y,img_rows = 28, img_cols = 28):
+    def vispredictwithlabel(self, nm, x, y,img_rows = 28, img_cols = 28):
         w1,b1 = nm.layers[1].get_weights()
         w2,b2 = nm.layers[2].get_weights()
         W1 = np.vstack([w1])

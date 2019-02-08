@@ -5,15 +5,10 @@ Created on Feb 8, 2019
 '''
 
 from keras.datasets import mnist
-
 from skimage.transform import resize
-
 import numpy as np
-
 from keras import backend as K
-
 import keras
-
 import tensorflow as tf
 
 
