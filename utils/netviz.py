@@ -408,3 +408,152 @@ class NetViz:
         A.append(100*len(E2)/total)
         #dot.edges(E2) # To be uncommented if needed 
         return dot, A, graph
+    
+    
+    def vispredictwithlabel(self,nm, x, y,img_rows = 28, img_cols = 28):
+        w1,b1 = nm.layers[1].get_weights()
+        w2,b2 = nm.layers[2].get_weights()
+        W1 = np.vstack([w1])
+        print(W1.shape)
+        X = x.reshape(img_rows*img_cols,)
+        X1 = np.dot(X,W1)
+        X1 = np.add(X1, b1)
+        X1[X1<0]=0
+        W2 = np.vstack([w2])
+        X2 = np.dot(X1,W2)
+        X2 = np.add(X2,b2)
+        X2 = self.softmax(X2)
+        dot = Graph(format='png')
+        #dot.attr(bgcolor='purple:pink', kw = "edge", style = "invis",nodesep = "0")
+        dot.attr(bgcolor='purple:pink', kw = "edge", color = "yellow",nodesep = "0")
+        dot.attr(kw = "graph", nodesep = "0", ranksep = "0")
+        
+        color = ["red","green"]
+        green = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
+        edgep = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
+        edgen = ["rosybrown1", "salmon", "orange", "orangered", "red", "red3"]
+        dot.node('I',str(self.getLabel(y)),color = "blue",style = "filled",**{'width':str(.2), 'height':str(.2)})
+        maxa = np.amax(X)
+        maxc = np.amax(X1)
+        maxd = np.amax(X2)
+        print(maxa,maxc,maxd)
+        A = []
+        s = .2
+        
+        
+        for i in range(X.shape[0]):
+            if X[i] > 0:
+                ind = int((X[i])//(maxa/4))
+                #print(ind,X[i])
+                c = green[ind]
+                dot.node('x_'+str(i), str(X[i]), color = c,fillcolor = c, style  = "filled",**{'width':str(s), 'height':str(s)})
+            else :
+                 dot.node('x_'+str(i), str(X[i]), color = color[0], style  = "filled",**{'width':str(s), 'height':str(s)})
+        E = []
+        total = 0
+        for j in range(X.shape[0]):
+            total += 1
+            #if X[j] > 0:
+            #E.append(('I','x_'+str(j))) # May need uncommenting
+            dot.edge('I','x_'+str(j), style ="invis")
+            
+    
+        #print(len(E),total,100*len(E)/total)
+        #A.append(100*len(E)/total)
+        #dot.edges(E) # My need uncommenting
+        for i in range(X1.shape[0]):
+            if X1[i] > 0:
+                ind = int((X1[i])//(maxc/4))
+                c = green[ind]
+                dot.node('x1_'+str(i), str(X1[i]), color = c, fillcolor = c,style  = "filled",**{'width':str(s), 'height':str(s)})
+            else :
+                 dot.node('x1_'+str(i), str(X1[i]), color = color[0], fillcolor = color[0], style  = "filled",**{'width':str(s), 'height':str(s)})
+    
+        E1 = []
+        total = 0
+        print(X1.shape," Here")
+        minw = 0
+        maxw = -1
+        indices1 = []
+        
+        # Getting max w phase
+        for j in range(X1.shape[0]):
+            for i in range(X.shape[0]):
+                if X[i] > 0:
+                    #E1.append(('x_'+str(i),'x1_'+str(j))) # May need uncommenting
+                    w = np.multiply(W1[i][j], X[i])
+                    maxw = max(maxw,w)
+                    minw = min(w, minw)
+                    sw = w *255
+        
+        for j in range(X1.shape[0]):
+            for i in range(X.shape[0]):
+                total += 1
+                if X[i] > 0:
+                    #E1.append(('x_'+str(i),'x1_'+str(j))) # May need uncommenting
+                    w = np.multiply(W1[i][j], X[i])
+                    sw = w *255
+                    if sw <= 0:
+                        ind = int(abs(sw)/((abs(minw) * 255)/5))
+                        c = edgen[ind]
+                        dot.edge('x_'+str(i),'x1_'+str(j), color = c)
+                        indices1.append("n{}".format(ind))
+                    else:
+                        ind = int(sw/((maxw * 255)/4))
+                        #print(ind)
+                        c = edgep[ind]
+                        dot.edge('x_'+str(i),'x1_'+str(j), color = c)
+                        indices1.append("p{}".format(ind))
+        # Adding edges
+        #print(len(E1),total,100*len(E1)/total)
+        print(maxw, minw, "MINMAX W")
+        A.append(100*len(E1)/total)
+        #dot.edges(E1) # May need uncommenting
+        for i in range(X2.shape[0]):
+            if X2[i] > 0:
+                ind = int((X2[i])//(maxd/4))
+                c = green[ind]
+                dot.node('x2_'+str(i), str(X2[i])+str(b2[i]), color = c, fillcolor = c, style  = "filled",**{'width':str(s), 'height':str(s)})
+            else :
+                dot.node('x2_'+str(i), str(X2[i]) + str(b2[i]), color = color[0], fillcolor = color[0],style  = "filled",**{'width':str(s), 'height':str(s)})
+        E2 = []
+        total = 0
+        minw = 0
+        maxw = -1
+        for j in range(X2.shape[0]):
+            for i in range(X1.shape[0]):
+                if X1[i] > 0:
+                    #E1.append(('x_'+str(i),'x1_'+str(j))) # May need uncommenting
+                    w = np.multiply(W2[i][j], X1[i])
+                    maxw = max(maxw,w)
+                    minw = min(w, minw)
+                    sw = w *255
+            
+        indices2 = []
+        for j in range(X2.shape[0]):
+            for i in range(X1.shape[0]):
+                total += 1
+                if X1[i] > 0:
+                    w = np.multiply(W2[i][j], X1[i])
+                    sw = w *255
+                    if sw <= 0:
+                        ind = int(abs(sw)/((abs(minw) * 255)/5))
+                        c = edgen[ind]
+                        dot.edge('x1_'+str(i),'x2_'+str(j),color = c)
+                        indices2.append("n{}".format(ind))
+                    else:
+                        ind = int(sw/((maxw* 255)/4))
+                        #print(ind)
+                        c = edgep[ind]
+                        dot.edge('x1_'+str(i),'x2_'+str(j),color = c)
+                        indices2.append("n{}".format(ind))
+    
+                    #E2.append(('x1_'+str(i),'x2_'+str(j))) # To be uncommented if needed 
+        #print(len(E2), total, 100*len(E2)/total)
+        print(maxw, minw, "MINMAX W")
+        indices1 = set(indices1)
+        indices2 = set(indices2)
+        print(indices1, indices2)
+        A.append(100*len(E2)/total)
+        #dot.edges(E2) # To be uncommented if needed 
+        return dot, A
