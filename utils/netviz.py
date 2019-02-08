@@ -28,6 +28,8 @@ class NGraph:
     def __init__(self):
         self.graph = defaultdict(dict)
         self.path = ""
+        self.paths = []
+        self.total  = 0
         self.pq = Q.PriorityQueue()
     def addEdge(self, u, v, w):
         self.graph[u][v] = w
