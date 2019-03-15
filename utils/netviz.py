@@ -55,7 +55,7 @@ class NGraph:
         #        print(u, v, self.graph[u][v])
 
     def dfs(self, u, path):
-        if 
+        pass
     def findpath(self, u):
         #print("Path ",u)
         if u == None:
