@@ -102,7 +102,7 @@ class MNISTUitl:
     
         nm.fit(x_train, y_train, epochs=10)
         return nm, x_test, y_test
-    def train2(self,x_zo,y_zo,xt_zo,yt_zo,img_rows = 28, img_cols = 28,numclass = 10):
+    def train2(self,x_zo,y_zo,xt_zo,yt_zo,img_rows = 28, img_cols = 28,numclass = 10,ep = 20):
         if K.image_data_format() == 'channels_first':
             x_zo = x_zo.reshape(x_zo.shape[0], 1, img_rows, img_cols)
             xt_zo = xt_zo.reshape(xt_zo.shape[0], 1, img_rows, img_cols)
@@ -120,13 +120,13 @@ class MNISTUitl:
         print(x_zo.shape,x_train.shape[0], 'train samples', y_zo.shape)
         print(x_test.shape[0], 'test samples')
     
-        y_train = keras.utils.to_categorical(y_zo, numclass )
-        y_test =  keras.utils.to_categorical(yt_zo, numclass)
+        y_train = y_zo #keras.utils.to_categorical(y_zo, numclass )
+        y_test =  yt_zo #keras.utils.to_categorical(yt_zo, numclass)
     
         print(y_zo.shape,y_train.shape)
         nm = keras.Sequential([
             keras.layers.Flatten(input_shape=(img_rows, img_cols,1), name = "Input"),
-            keras.layers.Dense(7, activation=tf.nn.relu ,name = "H"),
+            keras.layers.Dense(14, activation=tf.nn.relu ,name = "H"),
             keras.layers.Dense(numclass, activation=tf.nn.softmax, name = "output")
         ])
     
@@ -134,5 +134,5 @@ class MNISTUitl:
                       loss='sparse_categorical_crossentropy',
                       metrics=['accuracy'])
         print(nm.summary())
-        nm.fit(x_train, y_train, epochs=10)
+        nm.fit(x_train, y_train, epochs=ep)
         return nm, x_test, y_test
