@@ -58,7 +58,7 @@ class MNISTUitl:
         yt_zo = []
     
         for i in range(len(y_test)):
-            if y_test[i] == a or y_test[i] == b:
+            if y_train[i] in [0,1,2,3,4,5,6,7,8,9]:
                 A = resize(x_test[i], (img_rows,  img_cols),mode='constant')
                 Ay = y_test[i]#resize(y_train[i], (img_rows, img_cols))
                 xt_zo.append(A)

@@ -110,7 +110,8 @@ class NetViz:
             return 1
         else:
             return 0
-    
+    def getLabel2(self, y):
+        return y[0]
     def vispredictwights(self,nm, x, y,img_rows = 28, img_cols = 28):
         w1,b1 = nm.layers[1].get_weights()
         w2,b2 = nm.layers[2].get_weights()
@@ -277,13 +278,13 @@ class NetViz:
         dot = Graph(format='png')
         #dot.attr(bgcolor='purple:pink', kw = "edge", style = "invis",nodesep = "0")
         dot.attr(bgcolor='purple:pink', kw = "edge", color = "yellow",nodesep = "0")
-        dot.attr(kw = "graph", nodesep = "0", ranksep = "0")
+        dot.attr(kw = "graph", nodesep = "0", ranksep = "0",ordering = "out")
         
         color = ["red","green"]
         green = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
         edgep = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
         edgen = ["rosybrown1", "salmon", "orange", "orangered", "red", "red3"]
-        dot.node('I',str(self.getLabel(y)),color = "blue",style = "filled",**{'width':str(.2), 'height':str(.2)})
+        dot.node('I',str(self.getLabel2(y)),color = "blue",style = "filled",**{'width':str(.2), 'height':str(.2)})
         maxa = np.amax(X)
         maxc = np.amax(X1)
         maxd = np.amax(X2)
@@ -425,21 +426,21 @@ class NetViz:
         X = x.reshape(img_rows*img_cols,)
         X1 = np.dot(X,W1)
         X1 = np.add(X1, b1)
-        X1[X1<0]=0
+        X1[X1<0]= 0
         W2 = np.vstack([w2])
         X2 = np.dot(X1,W2)
         X2 = np.add(X2,b2)
         X2 = self.softmax(X2)
         dot = Graph(format='png')
         #dot.attr(bgcolor='purple:pink', kw = "edge", style = "invis",nodesep = "0")
-        dot.attr(bgcolor='purple:pink', kw = "edge", color = "yellow",nodesep = "0")
-        dot.attr(kw = "graph", nodesep = "0", ranksep = "0")
-        
+        dot.attr(bgcolor='purple:pink', kw = "edge", color = "yellow",nodesep = "0",rankdir = "LR")
+        dot.attr(kw = "graph", nodesep = "0", ranksep = "0",ordering = "out")
+        dot.attr(kw = "node",rankdir = "LR")
         color = ["red","green"]
         green = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
         edgep = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
         edgen = ["rosybrown1", "salmon", "orange", "orangered", "red", "red3"]
-        dot.node('I',str(self.getLabel(y)),color = "blue",style = "filled",**{'width':str(.2), 'height':str(.2)})
+        dot.node('I',str(self.getLabel2(y)),color = "blue",style = "filled",**{'width':str(.2), 'height':str(.2)})
         maxa = np.amax(X)
         maxc = np.amax(X1)
         maxd = np.amax(X2)
@@ -455,7 +456,7 @@ class NetViz:
                 c = green[ind]
                 dot.node('x_'+str(i), str(X[i]), color = c,fillcolor = c, style  = "filled",**{'width':str(s), 'height':str(s)})
             else :
-                 dot.node('x_'+str(i), str(X[i]), color = color[0], style  = "filled",**{'width':str(s), 'height':str(s)})
+                dot.node('x_'+str(i), str(X[i]), color = color[0], style  = "filled",**{'width':str(s), 'height':str(s)})
         E = []
         total = 0
         for j in range(X.shape[0]):
@@ -474,7 +475,7 @@ class NetViz:
                 c = green[ind]
                 dot.node('x1_'+str(i), str(X1[i]), color = c, fillcolor = c,style  = "filled",**{'width':str(s), 'height':str(s)})
             else :
-                 dot.node('x1_'+str(i), str(X1[i]), color = color[0], fillcolor = color[0], style  = "filled",**{'width':str(s), 'height':str(s)})
+                dot.node('x1_'+str(i), str(X1[i]), color = color[0], fillcolor = color[0], style  = "filled",**{'width':str(s), 'height':str(s)})
     
         E1 = []
         total = 0
@@ -516,13 +517,15 @@ class NetViz:
         print(maxw, minw, "MINMAX W")
         A.append(100*len(E1)/total)
         #dot.edges(E1) # May need uncommenting
+        print("X1", X1)
+        print("X2", X2)
         for i in range(X2.shape[0]):
             if X2[i] > 0:
                 ind = int((X2[i])//(maxd/4))
                 c = green[ind]
-                dot.node('x2_'+str(i), str(X2[i])+str(b2[i]), color = c, fillcolor = c, style  = "filled",**{'width':str(s), 'height':str(s)})
+                dot.node('x2_'+str(i), str(X2[i]), color = c, fillcolor = c, style  = "filled",**{'width':str(s), 'height':str(s)})
             else :
-                dot.node('x2_'+str(i), str(X2[i]) + str(b2[i]), color = color[0], fillcolor = color[0],style  = "filled",**{'width':str(s), 'height':str(s)})
+                dot.node('x2_'+str(i), str(X2[i]), color = color[0], fillcolor = color[0],style  = "filled",**{'width':str(s), 'height':str(s)})
         E2 = []
         total = 0
         minw = 0
