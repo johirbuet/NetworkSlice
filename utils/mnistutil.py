@@ -126,7 +126,7 @@ class MNISTUitl:
         print(y_zo.shape,y_train.shape)
         nm = keras.Sequential([
             keras.layers.Flatten(input_shape=(img_rows, img_cols,1), name = "Input"),
-            keras.layers.Dense(144, activation=tf.nn.relu ,name = "H"),
+            keras.layers.Dense(49, activation=tf.nn.relu ,name = "H"),
             keras.layers.Dense(numclass, activation=tf.nn.softmax, name = "output")
         ])
     
