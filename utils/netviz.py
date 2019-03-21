@@ -261,7 +261,7 @@ class NetViz:
         return dot, A
     
     
-    def vispredict(self,nm, x, y,img_rows = 28, img_cols = 28):
+    def vispredict(self,nm, x, y,img_rows = 28, img_cols = 28, ss = 0.2):
         graph = NGraph()
         w1,b1 = nm.layers[1].get_weights()
         w2,b2 = nm.layers[2].get_weights()
@@ -276,6 +276,7 @@ class NetViz:
         X2 = np.add(X2,b2)
         X2 = self.softmax(X2)
         dot = Graph(format='png')
+        s = ss
         #dot.attr(bgcolor='purple:pink', kw = "edge", style = "invis",nodesep = "0")
         dot.attr(bgcolor='purple:pink', kw = "edge", color = "yellow",nodesep = "0")
         dot.attr(kw = "graph", nodesep = "0", ranksep = "0",ordering = "out")
@@ -284,13 +285,13 @@ class NetViz:
         green = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
         edgep = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
         edgen = ["rosybrown1", "salmon", "orange", "orangered", "red", "red3"]
-        dot.node('I',str(self.getLabel2(y)),color = "blue",style = "filled",**{'width':str(.2), 'height':str(.2)})
+        dot.node('I',str(self.getLabel2(y)),color = "blue",style = "filled",**{'width':str(s), 'height':str(s)})
         maxa = np.amax(X)
         maxc = np.amax(X1)
         maxd = np.amax(X2)
         print(maxa,maxc,maxd)
         A = []
-        s = .2
+        
         
         valdic = {}
         for i in range(X.shape[0]):

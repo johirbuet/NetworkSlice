@@ -10,6 +10,9 @@ import numpy as np
 from keras import backend as K
 import keras
 import tensorflow as tf
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Conv2D, MaxPooling2D
 
 
 
@@ -136,3 +139,30 @@ class MNISTUitl:
         print(nm.summary())
         nm.fit(x_train, y_train, epochs=ep)
         return nm, x_test, y_test
+    def train3(self,x_zo,y_zo,xt_zo,yt_zo,img_rows = 28, img_cols = 28,numclass = 10,ep = 20):
+        input_shape = (img_rows,img_cols,1)
+        x_zo = x_zo.reshape(x_zo.shape[0], img_rows, img_cols, 1)
+        xt_zo = xt_zo.reshape(xt_zo.shape[0], img_rows, img_cols, 1)
+        x_train = x_zo.astype('float32')
+        x_test = xt_zo.astype('float32')
+        x_train /= 255
+        x_test /= 255
+        y_train = keras.utils.to_categorical(y_zo, numclass )
+        y_test =  keras.utils.to_categorical(yt_zo, numclass)
+        num_classes = 10
+        model = Sequential()
+        model.add(Conv2D(32, kernel_size=(3, 3),
+                         activation='relu',
+                         input_shape=input_shape))
+        model.add(Conv2D(64, (3, 3), activation='relu'))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        #model.add(Dropout(0.25))
+        model.add(Flatten())
+        model.add(Dense(128, activation='relu'))
+        #model.add(Dropout(0.5))
+        model.add(Dense(num_classes, activation='softmax'))
+        model.compile(loss=keras.losses.categorical_crossentropy,
+              optimizer=keras.optimizers.Adadelta(),
+              metrics=['accuracy'])
+        model.fit(x_train, y_train, epochs=ep)
+        return model, x_test, y_test
