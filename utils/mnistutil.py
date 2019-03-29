@@ -18,6 +18,8 @@ from keras.layers import Conv2D, MaxPooling2D
 
 
 class MNISTUitl:
+    
+    
     def __init__(self):
         self.name = None
         
