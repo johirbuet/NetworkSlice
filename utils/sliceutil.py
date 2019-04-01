@@ -84,7 +84,7 @@ class Slice:
         #b1 = np.zeros_like(self.b1)
         #b2 = np.zeros_like(self.b2)
         for i in range(X1.shape[0]):
-            if X1[i] == 0:
+            if X1[i] <= 0:
                 #print("Zero X1")
                 self.D1[:,i] = [x for x in self.D1[:,i]]
             else:
