@@ -31,6 +31,7 @@ class NGraph:
         self.paths = []
         self.total  = 0
         self.pq = Q.PriorityQueue()
+        
     def addEdge(self, u, v, w):
         self.graph[u][v] = w
     def visit(self):
@@ -91,8 +92,9 @@ class NGraph:
     def getPath(self):
         return self.path
 class NetViz:
-    def __init__(self):
+    def __init__(self, top = 3):
         self.name = ""
+        self.top = top
     def softmax(self,x):
         """Compute softmax values for each sets of scores in x."""
         e_x = np.exp(x - np.max(x))
@@ -367,11 +369,16 @@ class NetViz:
         print(maxw, minw, "MINMAX W")
         A.append(100*len(E1)/total)
         #dot.edges(E1) # May need uncommenting
+        nodes_print = []
+        d = 0
         for i in range(X2.shape[0]):
             valdic['x2_'+str(i)] = X2[i]
+            nodes_print.append(X2[i])
             if X2[i] > 0:
                 ind = int((X2[i])//(maxd/4))
                 c = green[ind]
+                
+                d = d + 1
                 dot.node('x2_'+str(i), "", color = c, fillcolor = c, style  = "filled",**{'width':str(s), 'height':str(s)})
             else :
                 dot.node('x2_'+str(i), "", color = color[0], fillcolor = color[0],style  = "filled",**{'width':str(s), 'height':str(s)})
@@ -389,6 +396,7 @@ class NetViz:
                     sw = w *255
             
         indices2 = []
+        
         for j in range(X2.shape[0]):
             for i in range(X1.shape[0]):
                 total += 1
@@ -416,6 +424,23 @@ class NetViz:
         print(indices1, indices2)
         A.append(100*len(E2)/total)
         #dot.edges(E2) # To be uncommented if needed 
+        nodesmax = [] 
+        for n in nodes_print:
+            nodesmax.append(n)
+        nodesmax.sort()
+        print(nodesmax)
+        k = 0 
+        indiceskept = []
+        for i in range(0, len(nodesmax) - self.top - 1):
+            k = k + 1
+            for j in range(0, len(nodes_print)):
+                if  nodes_print[j] == nodesmax[i]:
+                    nodes_print[j] = 0
+        print(k, "nodes removed")
+        d = 0
+        for n in nodes_print:
+            print("Digit  {0}, prob = {1}".format(d, n))
+            d = d + 1
         return dot, A, graph
     
     

@@ -39,6 +39,7 @@ class Slice:
         self.D2 = None
         self.d1 = None
         self.d2 = None
+        self.first = True
     
     
     
@@ -102,6 +103,60 @@ class Slice:
         #print(self.D1)
         #print("D2")
         #print(self.D2)
+        return self.D1, self.D2, self.d1, self.d2
+    
+    def modifyThroughInterSection(self,nm, x,img_rows = 28, img_cols = 28):
+        X = x.reshape(img_rows*img_cols,)
+        X1 = np.dot(X,self.W1)
+        X1 = np.add(X1, self.b1)
+        X2 = np.dot(X1,self.W2)
+        X2 = np.add(X2,self.b2)
+        X2 = self.softmax(X2)
+        X1[X1<0]=0
+        #W1 = np.zeros_like(self.W1)
+        #W2 = np.zeros_like(self.W2)
+        #b1 = np.zeros_like(self.b1)
+        #b2 = np.zeros_like(self.b2)
+        for i in range(X1.shape[0]):
+            if X1[i] <= 0:
+                #print("Zero X1")
+                self.D1[:,i] = [0 for x in self.D1[:,i]]
+                self.d1[i] = 0
+            else:
+                if self.first == True:
+                    self.D1[:,i] = self.W1[:,i]
+                    self.d1[i] = self.b1[i]
+                else:
+                    for j in range(0,len(self.W1[:,i])):
+                        if self.W1[j,i] < 0 :
+                            self.D1[j,i] = max(self.D1[j,i], self.W1[j,i])
+                        else:
+                            self.D1[j,i] = min(self.D1[j,i], self.W1[j,i])
+                    self.d1[i] = self.b1[i]
+        for i in range(X2.shape[0]):
+            if X2[i] <= .3:
+                #print("Zero X2")
+                self.D2[:,i] = [ 0 for x in self.D2[:,i]]
+                self.b2[i] = 0
+            else:
+                if self.first == True:
+                    self.D2[:,i] = self.W2[:,i]
+                    self.d2[i] = self.b2[i]
+                else:
+                    for j in range(0,len(self.W2[:,i])):
+                        if self.W2[j,i] < 0 :
+                            self.D2[j,i] = max(self.D2[j,i], self.W2[j,i])
+                        else:
+                            self.D2[j,i] = min(self.D2[j,i], self.W2[j,i])
+                        #self.D2[:,i] = self.W2[:,i]
+                    self.d2[i] = self.b2[i]
+        
+        #print("D1")
+        #print(self.D1)
+        #print("D2")
+        #print(self.D2)
+        if self.first == True:
+            self.first = False
         return self.D1, self.D2, self.d1, self.d2
     
     def getLabel(self,y):
