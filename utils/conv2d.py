@@ -248,6 +248,17 @@ def extract_sliding_windows(x, ksize, pad, stride, floor_first=True):
                    strides=y_strides)
     return y
 
+def batchnorm_forward(X, gamma = 1, beta = 0):
+    mu = np.mean(X, axis=0)
+    var = np.var(X, axis=0)
+
+    X_norm = (X - mu) / np.sqrt(var + 1e-8)
+    out = gamma * X_norm + beta
+
+    cache = (X, X_norm, mu, var, gamma, beta)
+
+    return out, cache, mu, var
+
 
 def conv2d(x, w, pad='SAME', stride=(1, 1)):
     """2D convolution (technically speaking, correlation).

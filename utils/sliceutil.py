@@ -104,8 +104,39 @@ class Slice:
         #print("D2")
         #print(self.D2)
         return self.D1, self.D2, self.d1, self.d2
-    
-    def modifyThroughInterSection(self,nm, x,img_rows = 28, img_cols = 28):
+    def getnonzero(self, a, b):
+        if a == 0:
+            return b 
+        if b == 0:
+            return a
+        return (a + b) / 2
+    def joinModules(self, m, n):
+        mw1, mb1 = m.layers[1].get_weights()
+        mw2, mb2 = m.layers[2].get_weights()
+        nw1, nb1 = n.layers[1].get_weights()
+        nw2, nb2 = n.layers[2].get_weights()
+        
+        mw1 = np.vstack(mw1)
+        mw2 = np.vstack(mw2)
+        nw1 = np.vstack(nw1)
+        nw2 = np.vstack(nw2)
+        for i in range(mw1.shape[0]):
+            for j in range(mw1.shape[1]):
+                mw1[i,j] = self.getnonzero(mw1[i,j], nw1[i,j])
+        for i in range(mb1.shape[0]):
+            mb1[i] = self.getnonzero(mb1[i], nb1[i])
+        
+        
+        for i in range(mw2.shape[0]):
+            for j in range(mw2.shape[1]):
+                mw2[i,j] = self.getnonzero(mw2[i,j], nw2[i,j])
+        for i in range(mb2.shape[0]):
+            mb2[i] = self.getnonzero(mb2[i], nb2[i])
+        
+            
+        return mw1 , mb1, mw2, mb2 
+        
+    def modifyThroughInterSection(self,nm, x,img_rows = 28, img_cols = 28, thr = 0):
         X = x.reshape(img_rows*img_cols,)
         X1 = np.dot(X,self.W1)
         X1 = np.add(X1, self.b1)
@@ -134,7 +165,7 @@ class Slice:
                             self.D1[j,i] = min(self.D1[j,i], self.W1[j,i])
                     self.d1[i] = self.b1[i]
         for i in range(X2.shape[0]):
-            if X2[i] <= .3:
+            if X2[i] <= thr:
                 #print("Zero X2")
                 self.D2[:,i] = [ 0 for x in self.D2[:,i]]
                 self.b2[i] = 0
