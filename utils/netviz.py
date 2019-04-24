@@ -268,7 +268,7 @@ class NetViz:
         w1,b1 = nm.layers[1].get_weights()
         w2,b2 = nm.layers[2].get_weights()
         W1 = np.vstack([w1])
-        print(W1.shape)
+        #print(W1.shape)
         X = x.reshape(img_rows*img_cols,)
         X1 = np.dot(X,W1)
         X1 = np.add(X1, b1)
@@ -291,7 +291,7 @@ class NetViz:
         maxa = np.amax(X)
         maxc = np.amax(X1)
         maxd = np.amax(X2)
-        print(maxa,maxc,maxd)
+        #print(maxa,maxc,maxd)
         A = []
         
         
@@ -329,7 +329,7 @@ class NetViz:
     
         E1 = []
         total = 0
-        print(X1.shape," Here")
+        #print(X1.shape," Here")
         minw = 0
         maxw = -1
         indices1 = []
@@ -366,7 +366,7 @@ class NetViz:
                         indices1.append("p{}".format(ind))
         # Adding edges
         #print(len(E1),total,100*len(E1)/total)
-        print(maxw, minw, "MINMAX W")
+        #print(maxw, minw, "MINMAX W")
         A.append(100*len(E1)/total)
         #dot.edges(E1) # May need uncommenting
         nodes_print = []
@@ -418,17 +418,17 @@ class NetViz:
     
                     #E2.append(('x1_'+str(i),'x2_'+str(j))) # To be uncommented if needed 
         #print(len(E2), total, 100*len(E2)/total)
-        print(maxw, minw, "MINMAX W")
+        #print(maxw, minw, "MINMAX W")
         indices1 = set(indices1)
         indices2 = set(indices2)
-        print(indices1, indices2)
+        #print(indices1, indices2)
         A.append(100*len(E2)/total)
         #dot.edges(E2) # To be uncommented if needed 
         nodesmax = [] 
         for n in nodes_print:
             nodesmax.append(n)
         nodesmax.sort()
-        print(nodesmax)
+        #print(nodesmax)
         k = 0 
         indiceskept = []
         for i in range(0, len(nodesmax) - self.top - 1):
@@ -436,12 +436,12 @@ class NetViz:
             for j in range(0, len(nodes_print)):
                 if  nodes_print[j] == nodesmax[i]:
                     nodes_print[j] = 0
-        print(k, "nodes removed")
+        #print(k, "nodes removed")
         d = 0
         for n in nodes_print:
-            print("Digit  {0}, prob = {1}".format(d, n))
+            #print("Digit  {0}, prob = {1}".format(d, n))
             d = d + 1
-        return dot, A, graph
+        return dot, A, graph, nodes_print
     
     
     def vispredictwithlabel(self, nm, x, y,img_rows = 28, img_cols = 28):
