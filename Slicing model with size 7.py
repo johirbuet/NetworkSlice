@@ -104,8 +104,8 @@ lg = 6
 lh = 7
 li = 8
 lj = 9
-th1 = 0
-th2 = 0
+th1 = 0.0001
+th2 = 0.0001
 for i in range(0,len(yt)):
     if yt[i] == la and na.predict(xt[i:i+1])[0][la] >.9:
         ya.append(xt[i])
@@ -139,17 +139,18 @@ np.random.shuffle(yg)
 np.random.shuffle(yh)
 np.random.shuffle(yi)
 np.random.shuffle(yj)
-#ya = ya[0:100]
-#yb = yb[0:100]
-#yc = yc[0:100]
-#yd = yd[0:100]
-#ye = ye[0:100]
-#yf = yf[0:100]
-#yg = yg[0:100]
-#yh = yh[0:100]
-#yi = yi[0:100]
-#yj = yj[0:100]
+ya = ya[0:100]
+yb = yb[0:100]
+yc = yc[0:100]
+yd = yd[0:100]
+ye = ye[0:100]
+yf = yf[0:100]
+yg = yg[0:100]
+yh = yh[0:100]
+yi = yi[0:100]
+yj = yj[0:100]
 #slc.D1
+thr=30
 sliceacc=[]
 ac = 0
 for x in ya:
@@ -157,7 +158,7 @@ for x in ya:
     aW1, aW2, aW3, aW4, aW5, ab1, ab2, ab3, ab4, ab5 = slca.modifyThroughInterSectionDense4(na,x,sx,sy, th1)
     ac = ac + 1
     #print(np.count_nonzero(slcm.D2))
-    if np.count_nonzero(slca.D5) < 45:
+    if np.count_nonzero(slca.D5) < thr:
         print("Breaking at ac ", ac,np.count_nonzero(slca.D5))
         slca.first = True
 
@@ -166,7 +167,7 @@ for x in yb:
     #W1, W2,b1,b2 = slc.dynamicmodify(nm,x,sx,sy)
     bW1, bW2, bW3, bW4, bW5, bb1, bb2, bb3, bb4, bb5 = slcb.modifyThroughInterSectionDense4(nb,x,sx,sy, th2)
     bc = bc + 1
-    if np.count_nonzero(slcb.D5) < 45:
+    if np.count_nonzero(slcb.D5) < thr:
         print("Breaking at bc ", bc,np.count_nonzero(slcb.D5))
         slcb.first = True
 cc = 0
@@ -175,7 +176,7 @@ for x in yc:
     cW1, cW2, cW3, cW4, cW5, cb1, cb2, cb3, cb4, cb5 = slcc.modifyThroughInterSectionDense4(nc,x,sx,sy, th1)
     cc = cc + 1
     #print(np.count_nonzero(slcm.D2))
-    if np.count_nonzero(slcc.D5) < 45:
+    if np.count_nonzero(slcc.D5) < thr:
         print("Breaking at cc ", cc,np.count_nonzero(slcc.D5))
         slcc.first = True
 
@@ -184,7 +185,7 @@ for x in yd:
     #W1, W2,b1,b2 = slc.dynamicmodify(nm,x,sx,sy)
     dW1, dW2, dW3, dW4, dW5, db1, db2, db3, db4, db5 = slcd.modifyThroughInterSectionDense4(nd,x,sx,sy, th2)
     dc = dc + 1
-    if np.count_nonzero(slcd.D5) < 45:
+    if np.count_nonzero(slcd.D5) < thr:
         print("Breaking at dc ", dc,np.count_nonzero(slcd.D5))
         slcd.first = True
         
@@ -194,7 +195,7 @@ for x in ye:
     eW1, eW2, eW3, eW4, eW5, eb1, eb2, eb3, eb4, eb5 = slce.modifyThroughInterSectionDense4(ne,x,sx,sy, th1)
     ec = ec + 1
     #print(np.count_nonzero(slcm.D2))
-    if np.count_nonzero(slce.D5) < 45:
+    if np.count_nonzero(slce.D5) < thr:
         print("Breaking at ec ", ec,np.count_nonzero(slce.D5))
         slce.first = True
 
@@ -203,7 +204,7 @@ for x in yf:
     #W1, W2,b1,b2 = slc.dynamicmodify(nm,x,sx,sy)
     fW1, fW2, fW3, fW4, fW5, fb1, fb2, fb3, fb4, fb5 = slcf.modifyThroughInterSectionDense4(nf,x,sx,sy, th2)
     fc = fc + 1
-    if np.count_nonzero(slcf.D5) < 45:
+    if np.count_nonzero(slcf.D5) < thr:
         print("Breaking at fc ", fc,np.count_nonzero(slcf.D5))
         slcf.first = True
         
@@ -213,7 +214,7 @@ for x in yg:
     gW1, gW2, gW3, gW4, gW5, gb1, gb2, gb3, gb4, gb5 = slcg.modifyThroughInterSectionDense4(ng,x,sx,sy, th1)
     gc = gc + 1
     #print(np.count_nonzero(slcm.D2))
-    if np.count_nonzero(slcg.D5) < 45:
+    if np.count_nonzero(slcg.D5) < thr:
         print("Breaking at gc ", gc,np.count_nonzero(slcg.D5))
         slcg.first = True
 
@@ -222,7 +223,7 @@ for x in yh:
     #W1, W2,b1,b2 = slc.dynamicmodify(nm,x,sx,sy)
     hW1, hW2, hW3, hW4, hW5, hb1, hb2, hb3, hb4, hb5 = slch.modifyThroughInterSectionDense4(nh,x,sx,sy, th2)
     hc = hc + 1
-    if np.count_nonzero(slch.D5) < 45:
+    if np.count_nonzero(slch.D5) < thr:
         print("Breaking at hc ", hc,np.count_nonzero(slch.D5))
         slch.first = True
 ic = 0
@@ -231,7 +232,7 @@ for x in yi:
     iW1, iW2, iW3, iW4, iW5, ib1, ib2, ib3, ib4, ib5 = slci.modifyThroughInterSectionDense4(ni,x,sx,sy, th1)
     ic = ic + 1
     #print(np.count_nonzero(slcm.D2))
-    if np.count_nonzero(slci.D5) < 45:
+    if np.count_nonzero(slci.D5) < thr:
         print("Breaking at ic ", ic,np.count_nonzero(slci.D5))
         slci.first = True
 
@@ -240,7 +241,7 @@ for x in yj:
     #W1, W2,b1,b2 = slc.dynamicmodify(nm,x,sx,sy)
     jW1, jW2, jW3, jW4, jW5, jb1, jb2, jb3, jb4, jb5 = slcj.modifyThroughInterSectionDense4(nj,x,sx,sy, th2)
     jc = jc + 1
-    if np.count_nonzero(slcj.D5) < 45:
+    if np.count_nonzero(slcj.D5) < thr:
         print("Breaking at jc ", jc,np.count_nonzero(slcj.D5))
         slcj.first = True
 
@@ -253,7 +254,7 @@ na.layers[1].set_weights([slca.D1,slca.d1])
 na.layers[2].set_weights([slca.D2,slca.d2])
 na.layers[3].set_weights([slca.D3,slca.d3])
 na.layers[4].set_weights([slca.D4,slca.d4])
-na.layers[5].set_weights([slca.D5,slca.d5])
+na.layers[5].set_weights([slca.W5,slca.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -286,7 +287,7 @@ nb.layers[1].set_weights([slcb.D1,slcb.d1])
 nb.layers[2].set_weights([slcb.D2,slcb.d2])
 nb.layers[3].set_weights([slcb.D3,slcb.d3])
 nb.layers[4].set_weights([slcb.D4,slcb.d4])
-nb.layers[5].set_weights([slcb.D5,slcb.d5])
+nb.layers[5].set_weights([slcb.W5,slcb.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -319,7 +320,7 @@ nc.layers[1].set_weights([slcc.D1,slcc.d1])
 nc.layers[2].set_weights([slcc.D2,slcc.d2])
 nc.layers[3].set_weights([slcc.D3,slcc.d3])
 nc.layers[4].set_weights([slcc.D4,slcc.d4])
-nc.layers[5].set_weights([slcc.D5,slcc.d5])
+nc.layers[5].set_weights([slcc.W5,slcc.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -352,7 +353,7 @@ nd.layers[1].set_weights([slcd.D1,slcd.d1])
 nd.layers[2].set_weights([slcd.D2,slcd.d2])
 nd.layers[3].set_weights([slcd.D3,slcd.d3])
 nd.layers[4].set_weights([slcd.D4,slcd.d4])
-nd.layers[5].set_weights([slcd.D5,slcd.d5])
+nd.layers[5].set_weights([slcd.W5,slcd.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -385,7 +386,7 @@ ne.layers[1].set_weights([slce.D1,slce.d1])
 ne.layers[2].set_weights([slce.D2,slce.d2])
 ne.layers[3].set_weights([slce.D3,slce.d3])
 ne.layers[4].set_weights([slce.D4,slce.d4])
-ne.layers[5].set_weights([slce.D5,slce.d5])
+ne.layers[5].set_weights([slce.W5,slce.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -418,7 +419,7 @@ nf.layers[1].set_weights([slcf.D1,slcf.d1])
 nf.layers[2].set_weights([slcf.D2,slcf.d2])
 nf.layers[3].set_weights([slcf.D3,slcf.d3])
 nf.layers[4].set_weights([slcf.D4,slcf.d4])
-nf.layers[5].set_weights([slcf.D5,slcf.d5])
+nf.layers[5].set_weights([slcf.W5,slcf.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -451,7 +452,7 @@ ng.layers[1].set_weights([slcg.D1,slcg.d1])
 ng.layers[2].set_weights([slcg.D2,slcg.d2])
 ng.layers[3].set_weights([slcg.D3,slcg.d3])
 ng.layers[4].set_weights([slcg.D4,slcg.d4])
-ng.layers[5].set_weights([slcg.D5,slcg.d5])
+ng.layers[5].set_weights([slcg.W5,slcg.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -484,7 +485,7 @@ nh.layers[1].set_weights([slch.D1,slch.d1])
 nh.layers[2].set_weights([slch.D2,slch.d2])
 nh.layers[3].set_weights([slch.D3,slch.d3])
 nh.layers[4].set_weights([slch.D4,slch.d4])
-nh.layers[5].set_weights([slch.D5,slch.d5])
+nh.layers[5].set_weights([slch.W5,slch.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -517,7 +518,7 @@ ni.layers[1].set_weights([slci.D1,slci.d1])
 ni.layers[2].set_weights([slci.D2,slci.d2])
 ni.layers[3].set_weights([slci.D3,slci.d3])
 ni.layers[4].set_weights([slci.D4,slci.d4])
-ni.layers[5].set_weights([slci.D5,slci.d5])
+ni.layers[5].set_weights([slci.W5,slci.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -550,7 +551,7 @@ nj.layers[1].set_weights([slcj.D1,slcj.d1])
 nj.layers[2].set_weights([slcj.D2,slcj.d2])
 nj.layers[3].set_weights([slcj.D3,slcj.d3])
 nj.layers[4].set_weights([slcj.D4,slcj.d4])
-nj.layers[5].set_weights([slcj.D5,slcj.d5])
+nj.layers[5].set_weights([slcj.W5,slcj.b5])
 #print(model.get_weights())
 from sklearn.metrics import accuracy_score
 zeros = []
@@ -688,25 +689,27 @@ NineLayer4=np.array(NineLayer4)
 # In[ ]:
 #Scoring for training dataset:
 testSlice=Slice()
-testW1, testW2, testW3, testW4, testW5, testb1, testb2, testb3, testb4, testb5 = testSlice.getweightsDense4(nj)
+testW1, testW2, testW3, testW4, testW5, testb1, testb2, testb3, testb4, testb5 = testSlice.getweightsDense4(hammingModel)
 xc=0
 W1list=[]
 W2list=[]
 W3list=[]
 W4list=[]
+#testW1,testb1 = hammingModel.layers[1].get_weights()
+#testW2,testb2 = hammingModel.layers[2].get_weights()
+#testW3,testb3 = hammingModel.layers[3].get_weights()
+#testW4,testb4 = hammingModel.layers[4].get_weights()
+#testW5,testb5 = hammingModel.layers[5].get_weights()
 for x in xt:
-    #W1, W2,b1,b2 = slc.dynamicmodify(nm,x,sx,sy)
     testSlice=Slice()
-    testW1, testW2, testW3, testW4, testW5, testb1, testb2, testb3, testb4, testb5 = testSlice.getweightsDense4(nj)
-    testW1, testW2, testW3, testW4, testW5, testb1, testb2, testb3, testb4, testb5 = testSlice.modifyThroughInterSectionDense4(nj,x,sx,sy, th2)
+    testModel=hammingModel
+    testW1, testW2, testW3, testW4, testW5, testb1, testb2, testb3, testb4, testb5 = testSlice.getweightsDense4(testModel)
+    testW1, testW2, testW3, testW4, testW5, testb1, testb2, testb3, testb4, testb5 = testSlice.modifyThroughInterSectionDense4(testModel,x,sx,sy, th2)
     W1list.append(np.array(np.nonzero(testW1[0])))
     W2list.append(np.array(np.nonzero(testW2[0])))
     W3list.append(np.array(np.nonzero(testW3[0])))
     W4list.append(np.array(np.nonzero(testW4[0])))
     xc = xc + 1
-    if np.count_nonzero(testSlice.D5) < 45:
-        print("Breaking at xc ", xc,np.count_nonzero(testSlice.D5))
-        testSlice.first = True
 
 # In[ ]:
 # Calculate the hamming distance
@@ -1023,7 +1026,7 @@ for i in range(0,49):
 for i in range(0,49):
     S8L1list=list(S8L1)
     if np.any(EightLayer1[0, :] == i)==True:
-        S0L1list[i]="1"
+        S8L1list[i]="1"
         S8L1="".join(S8L1list)
 # In[]:
 #S8L2
@@ -1077,7 +1080,9 @@ for i in range(0,49):
 
 # In[]: Node to Binary L1
 W1listBinary=[]
+W1listJaccardBinary=[]
 for x in range(0,60000):
+    temp=[]
     W1listStr=""
     for i in range(0,49):
         W1listStr+="0"
@@ -1086,10 +1091,16 @@ for x in range(0,60000):
         if np.any((W1list[x])[0, :] == y)==True:
             W1listStrlist[y]="1"
             W1listStr="".join(W1listStrlist)
+            temp.append("1")
+        else:
+            temp.append("0")
     W1listBinary.append(W1listStr)
+    W1listJaccardBinary.append(temp)
 # In[]:Node to Binary L2
 W2listBinary=[]
+W2listJaccardBinary=[]
 for x in range(0,60000):
+    temp=[]
     W2listStr=""
     for i in range(0,49):
         W2listStr+="0"
@@ -1098,10 +1109,16 @@ for x in range(0,60000):
         if np.any((W2list[x])[0, :] == y)==True:
             W2listStrlist[y]="1"
             W2listStr="".join(W2listStrlist)
+            temp.append("1")
+        else:
+            temp.append("0")
     W2listBinary.append(W2listStr)
+    W2listJaccardBinary.append(temp)
 # In[]:Node to Binary L3
 W3listBinary=[]
+W3listJaccardBinary=[]
 for x in range(0,60000):
+    temp=[]
     W3listStr=""
     for i in range(0,49):
         W3listStr+="0"
@@ -1110,10 +1127,16 @@ for x in range(0,60000):
         if np.any((W3list[x])[0, :] == y)==True:
             W3listStrlist[y]="1"
             W3listStr="".join(W3listStrlist)
+            temp.append("1")
+        else:
+            temp.append("0")
     W3listBinary.append(W3listStr)
+    W3listJaccardBinary.append(temp)
 # In[]:Node to Binary L4
 W4listBinary=[]
+W4listJaccardBinary=[]
 for x in range(0,60000):
+    temp=[]
     W4listStr=""
     for i in range(0,49):
         W4listStr+="0"
@@ -1122,7 +1145,11 @@ for x in range(0,60000):
         if np.any((W4list[x])[0, :] == y)==True:
             W4listStrlist[y]="1"
             W4listStr="".join(W4listStrlist)
+            temp.append("1")
+        else:
+            temp.append("0")
     W4listBinary.append(W4listStr) 
+    W4listJaccardBinary.append(temp)
 # In[]:
 #Calculate Hamming Distance L1
 W1HammingDistance=[]
@@ -1235,23 +1262,137 @@ hammingdistArr4=np.array(W4HammingDistance)
 
 # In[]
 # Check predict
-nj.layers[1].set_weights([testSlice.D1,testSlice.d1])
-nj.layers[2].set_weights([testSlice.D2,testSlice.d2])
-nj.layers[3].set_weights([testSlice.D3,testSlice.d3])
-nj.layers[4].set_weights([testSlice.D4,testSlice.d4])
-nj.layers[5].set_weights([testSlice.D5,testSlice.d5])
+#testMod=hammingModel
+#testMod.layers[1].set_weights([testSlice.D1,testSlice.d1])
+#testMod.layers[2].set_weights([testSlice.D2,testSlice.d2])
+#testMod.layers[3].set_weights([testSlice.D3,testSlice.d3])
+#testMod.layers[4].set_weights([testSlice.D4,testSlice.d4])
+#testMod.layers[5].set_weights([testSlice.W5,testSlice.b5])
 #print(model.get_weights())
-from sklearn.metrics import accuracy_score
-zeros = []
-pred = []
-tr = []
-acc = []
-count = 0
-for i in range(0,len(xt)):
-    p = nj.predict(xt[i:i+1])
-    m = p.argmax()
-    pred.append(m)
-score = accuracy_score(pred,tr)
-acc.append(score)
-print(acc)
-print(count)
+#X, Y, x, y = mn.getdata2(0,0,sx,sy)
+#testMod , xt, yt = mn.train4(X, Y, x,y,sx,sy,10,50)
+#from sklearn.metrics import accuracy_score
+#zeros = []
+#pred = []
+#tr = []
+#acc = []
+#count = 0
+#for i in range(0,len(xt)):
+#    p = testMod.predict(xt[i:i+1])
+#    m = p.argmax()
+#    pred.append(m)
+#score = accuracy_score(pred,tr)
+#acc.append(score)
+#print(acc)
+#print(count)
+# In[]: Jaccard Distance
+from scipy.spatial import distance
+# In[]:
+#Calculate Jaccard Distance L1
+W1JaccardDistance=[]
+for x in W1listJaccardBinary:
+    temp=[]
+    S0L1Distance_Jaccard=distance.jaccard([int(i) for i in S0L1list], [int(i) for i in x])
+    S1L1Distance_Jaccard=distance.jaccard([int(i) for i in S1L1list], [int(i) for i in x])
+    S2L1Distance_Jaccard=distance.jaccard([int(i) for i in S2L1list], [int(i) for i in x])
+    S3L1Distance_Jaccard=distance.jaccard([int(i) for i in S3L1list], [int(i) for i in x])
+    S4L1Distance_Jaccard=distance.jaccard([int(i) for i in S4L1list], [int(i) for i in x])
+    S5L1Distance_Jaccard=distance.jaccard([int(i) for i in S5L1list], [int(i) for i in x])
+    S6L1Distance_Jaccard=distance.jaccard([int(i) for i in S6L1list], [int(i) for i in x])
+    S7L1Distance_Jaccard=distance.jaccard([int(i) for i in S7L1list], [int(i) for i in x])
+    S8L1Distance_Jaccard=distance.jaccard([int(i) for i in S8L1list], [int(i) for i in x])
+    S9L1Distance_Jaccard=distance.jaccard([int(i) for i in S9L1list], [int(i) for i in x])
+    temp.append(S0L1Distance_Jaccard)
+    temp.append(S1L1Distance_Jaccard)
+    temp.append(S2L1Distance_Jaccard)
+    temp.append(S3L1Distance_Jaccard)
+    temp.append(S4L1Distance_Jaccard)
+    temp.append(S5L1Distance_Jaccard)
+    temp.append(S6L1Distance_Jaccard)
+    temp.append(S7L1Distance_Jaccard)
+    temp.append(S8L1Distance_Jaccard)
+    temp.append(S9L1Distance_Jaccard)
+    W1JaccardDistance.append(temp)
+# In[]:
+#Calculate Jaccard Distance L2
+W2JaccardDistance=[]
+for x in W2listJaccardBinary:
+    temp=[]
+    S0L2Distance_Jaccard=distance.jaccard([int(i) for i in S0L2list], [int(i) for i in x])
+    S1L2Distance_Jaccard=distance.jaccard([int(i) for i in S1L2list], [int(i) for i in x])
+    S2L2Distance_Jaccard=distance.jaccard([int(i) for i in S2L2list], [int(i) for i in x])
+    S3L2Distance_Jaccard=distance.jaccard([int(i) for i in S3L2list], [int(i) for i in x])
+    S4L2Distance_Jaccard=distance.jaccard([int(i) for i in S4L2list], [int(i) for i in x])
+    S5L2Distance_Jaccard=distance.jaccard([int(i) for i in S5L2list], [int(i) for i in x])
+    S6L2Distance_Jaccard=distance.jaccard([int(i) for i in S6L2list], [int(i) for i in x])
+    S7L2Distance_Jaccard=distance.jaccard([int(i) for i in S7L2list], [int(i) for i in x])
+    S8L2Distance_Jaccard=distance.jaccard([int(i) for i in S8L2list], [int(i) for i in x])
+    S9L2Distance_Jaccard=distance.jaccard([int(i) for i in S9L2list], [int(i) for i in x])
+    temp.append(S0L2Distance_Jaccard)
+    temp.append(S1L2Distance_Jaccard)
+    temp.append(S2L2Distance_Jaccard)
+    temp.append(S3L2Distance_Jaccard)
+    temp.append(S4L2Distance_Jaccard)
+    temp.append(S5L2Distance_Jaccard)
+    temp.append(S6L2Distance_Jaccard)
+    temp.append(S7L2Distance_Jaccard)
+    temp.append(S8L2Distance_Jaccard)
+    temp.append(S9L2Distance_Jaccard)
+    W2JaccardDistance.append(temp)
+# In[]:
+#Calculate Jaccard Distance L3
+W3JaccardDistance=[]
+for x in W3listJaccardBinary:
+    temp=[]
+    S0L3Distance_Jaccard=distance.jaccard([int(i) for i in S0L3list], [int(i) for i in x])
+    S1L3Distance_Jaccard=distance.jaccard([int(i) for i in S1L3list], [int(i) for i in x])
+    S2L3Distance_Jaccard=distance.jaccard([int(i) for i in S2L3list], [int(i) for i in x])
+    S3L3Distance_Jaccard=distance.jaccard([int(i) for i in S3L3list], [int(i) for i in x])
+    S4L3Distance_Jaccard=distance.jaccard([int(i) for i in S4L3list], [int(i) for i in x])
+    S5L3Distance_Jaccard=distance.jaccard([int(i) for i in S5L3list], [int(i) for i in x])
+    S6L3Distance_Jaccard=distance.jaccard([int(i) for i in S6L3list], [int(i) for i in x])
+    S7L3Distance_Jaccard=distance.jaccard([int(i) for i in S7L3list], [int(i) for i in x])
+    S8L3Distance_Jaccard=distance.jaccard([int(i) for i in S8L3list], [int(i) for i in x])
+    S9L3Distance_Jaccard=distance.jaccard([int(i) for i in S9L3list], [int(i) for i in x])
+    temp.append(S0L3Distance_Jaccard)
+    temp.append(S1L3Distance_Jaccard)
+    temp.append(S2L3Distance_Jaccard)
+    temp.append(S3L3Distance_Jaccard)
+    temp.append(S4L3Distance_Jaccard)
+    temp.append(S5L3Distance_Jaccard)
+    temp.append(S6L3Distance_Jaccard)
+    temp.append(S7L3Distance_Jaccard)
+    temp.append(S8L3Distance_Jaccard)
+    temp.append(S9L3Distance_Jaccard)
+    W3JaccardDistance.append(temp)
+# In[]:
+#Calculate Jaccard Distance L4
+W4JaccardDistance=[]
+for x in W4listJaccardBinary:
+    temp=[]
+    S0L4Distance_Jaccard=distance.jaccard([int(i) for i in S0L4list], [int(i) for i in x])
+    S1L4Distance_Jaccard=distance.jaccard([int(i) for i in S1L4list], [int(i) for i in x])
+    S2L4Distance_Jaccard=distance.jaccard([int(i) for i in S2L4list], [int(i) for i in x])
+    S3L4Distance_Jaccard=distance.jaccard([int(i) for i in S3L4list], [int(i) for i in x])
+    S4L4Distance_Jaccard=distance.jaccard([int(i) for i in S4L4list], [int(i) for i in x])
+    S5L4Distance_Jaccard=distance.jaccard([int(i) for i in S5L4list], [int(i) for i in x])
+    S6L4Distance_Jaccard=distance.jaccard([int(i) for i in S6L4list], [int(i) for i in x])
+    S7L4Distance_Jaccard=distance.jaccard([int(i) for i in S7L4list], [int(i) for i in x])
+    S8L4Distance_Jaccard=distance.jaccard([int(i) for i in S8L4list], [int(i) for i in x])
+    S9L4Distance_Jaccard=distance.jaccard([int(i) for i in S9L4list], [int(i) for i in x])
+    temp.append(S0L4Distance_Jaccard)
+    temp.append(S1L4Distance_Jaccard)
+    temp.append(S2L4Distance_Jaccard)
+    temp.append(S3L4Distance_Jaccard)
+    temp.append(S4L4Distance_Jaccard)
+    temp.append(S5L4Distance_Jaccard)
+    temp.append(S6L4Distance_Jaccard)
+    temp.append(S7L4Distance_Jaccard)
+    temp.append(S8L4Distance_Jaccard)
+    temp.append(S9L4Distance_Jaccard)
+    W4JaccardDistance.append(temp)
+# In[]
+JaccarddistArr1=np.array(W1JaccardDistance)
+JaccarddistArr2=np.array(W2JaccardDistance)
+JaccarddistArr3=np.array(W3JaccardDistance)
+JaccarddistArr4=np.array(W4JaccardDistance)
