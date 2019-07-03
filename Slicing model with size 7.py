@@ -1506,3 +1506,114 @@ CosinedistArr1=np.array(W1CosineDistance)
 CosinedistArr2=np.array(W2CosineDistance)
 CosinedistArr3=np.array(W3CosineDistance)
 CosinedistArr4=np.array(W4CosineDistance)
+
+
+
+# In[]: Dice Similarity
+W1DiceDistance=[]
+for x in W1listJaccardBinary:
+    temp=[]
+    S0L1Distance_Dice=distance.dice([int(i) for i in S0L1list], [int(i) for i in x])
+    S1L1Distance_Dice=distance.dice([int(i) for i in S1L1list], [int(i) for i in x])
+    S2L1Distance_Dice=distance.dice([int(i) for i in S2L1list], [int(i) for i in x])
+    S3L1Distance_Dice=distance.dice([int(i) for i in S3L1list], [int(i) for i in x])
+    S4L1Distance_Dice=distance.dice([int(i) for i in S4L1list], [int(i) for i in x])
+    S5L1Distance_Dice=distance.dice([int(i) for i in S5L1list], [int(i) for i in x])
+    S6L1Distance_Dice=distance.dice([int(i) for i in S6L1list], [int(i) for i in x])
+    S7L1Distance_Dice=distance.dice([int(i) for i in S7L1list], [int(i) for i in x])
+    S8L1Distance_Dice=distance.dice([int(i) for i in S8L1list], [int(i) for i in x])
+    S9L1Distance_Dice=distance.dice([int(i) for i in S9L1list], [int(i) for i in x])
+    temp.append(S0L1Distance_Dice)
+    temp.append(S1L1Distance_Dice)
+    temp.append(S2L1Distance_Dice)
+    temp.append(S3L1Distance_Dice)
+    temp.append(S4L1Distance_Dice)
+    temp.append(S5L1Distance_Dice)
+    temp.append(S6L1Distance_Dice)
+    temp.append(S7L1Distance_Dice)
+    temp.append(S8L1Distance_Dice)
+    temp.append(S9L1Distance_Dice)
+    W1DiceDistance.append(temp)
+# In[]:
+#Calculate Dice Distance L2
+W2DiceDistance=[]
+for x in W2listJaccardBinary:
+    temp=[]
+    S0L2Distance_Dice=distance.dice([int(i) for i in S0L2list], [int(i) for i in x])
+    S1L2Distance_Dice=distance.dice([int(i) for i in S1L2list], [int(i) for i in x])
+    S2L2Distance_Dice=distance.dice([int(i) for i in S2L2list], [int(i) for i in x])
+    S3L2Distance_Dice=distance.dice([int(i) for i in S3L2list], [int(i) for i in x])
+    S4L2Distance_Dice=distance.dice([int(i) for i in S4L2list], [int(i) for i in x])
+    S5L2Distance_Dice=distance.dice([int(i) for i in S5L2list], [int(i) for i in x])
+    S6L2Distance_Dice=distance.dice([int(i) for i in S6L2list], [int(i) for i in x])
+    S7L2Distance_Dice=distance.dice([int(i) for i in S7L2list], [int(i) for i in x])
+    S8L2Distance_Dice=distance.dice([int(i) for i in S8L2list], [int(i) for i in x])
+    S9L2Distance_Dice=distance.dice([int(i) for i in S9L2list], [int(i) for i in x])
+    temp.append(S0L2Distance_Dice)
+    temp.append(S1L2Distance_Dice)
+    temp.append(S2L2Distance_Dice)
+    temp.append(S3L2Distance_Dice)
+    temp.append(S4L2Distance_Dice)
+    temp.append(S5L2Distance_Dice)
+    temp.append(S6L2Distance_Dice)
+    temp.append(S7L2Distance_Dice)
+    temp.append(S8L2Distance_Dice)
+    temp.append(S9L2Distance_Dice)
+    W2DiceDistance.append(temp)
+# In[]:
+#Calculate Dice Distance L3
+W3DiceDistance=[]
+for x in W3listJaccardBinary:
+    temp=[]
+    S0L3Distance_Dice=distance.dice([int(i) for i in S0L3list], [int(i) for i in x])
+    S1L3Distance_Dice=distance.dice([int(i) for i in S1L3list], [int(i) for i in x])
+    S2L3Distance_Dice=distance.dice([int(i) for i in S2L3list], [int(i) for i in x])
+    S3L3Distance_Dice=distance.dice([int(i) for i in S3L3list], [int(i) for i in x])
+    S4L3Distance_Dice=distance.dice([int(i) for i in S4L3list], [int(i) for i in x])
+    S5L3Distance_Dice=distance.dice([int(i) for i in S5L3list], [int(i) for i in x])
+    S6L3Distance_Dice=distance.dice([int(i) for i in S6L3list], [int(i) for i in x])
+    S7L3Distance_Dice=distance.dice([int(i) for i in S7L3list], [int(i) for i in x])
+    S8L3Distance_Dice=distance.dice([int(i) for i in S8L3list], [int(i) for i in x])
+    S9L3Distance_Dice=distance.dice([int(i) for i in S9L3list], [int(i) for i in x])
+    temp.append(S0L3Distance_Dice)
+    temp.append(S1L3Distance_Dice)
+    temp.append(S2L3Distance_Dice)
+    temp.append(S3L3Distance_Dice)
+    temp.append(S4L3Distance_Dice)
+    temp.append(S5L3Distance_Dice)
+    temp.append(S6L3Distance_Dice)
+    temp.append(S7L3Distance_Dice)
+    temp.append(S8L3Distance_Dice)
+    temp.append(S9L3Distance_Dice)
+    W3DiceDistance.append(temp)
+# In[]:
+#Calculate Dice Distance L4
+W4DiceDistance=[]
+for x in W4listJaccardBinary:
+    temp=[]
+    S0L4Distance_Dice=distance.dice([int(i) for i in S0L4list], [int(i) for i in x])
+    S1L4Distance_Dice=distance.dice([int(i) for i in S1L4list], [int(i) for i in x])
+    S2L4Distance_Dice=distance.dice([int(i) for i in S2L4list], [int(i) for i in x])
+    S3L4Distance_Dice=distance.dice([int(i) for i in S3L4list], [int(i) for i in x])
+    S4L4Distance_Dice=distance.dice([int(i) for i in S4L4list], [int(i) for i in x])
+    S5L4Distance_Dice=distance.dice([int(i) for i in S5L4list], [int(i) for i in x])
+    S6L4Distance_Dice=distance.dice([int(i) for i in S6L4list], [int(i) for i in x])
+    S7L4Distance_Dice=distance.dice([int(i) for i in S7L4list], [int(i) for i in x])
+    S8L4Distance_Dice=distance.dice([int(i) for i in S8L4list], [int(i) for i in x])
+    S9L4Distance_Dice=distance.dice([int(i) for i in S9L4list], [int(i) for i in x])
+    temp.append(S0L4Distance_Dice)
+    temp.append(S1L4Distance_Dice)
+    temp.append(S2L4Distance_Dice)
+    temp.append(S3L4Distance_Dice)
+    temp.append(S4L4Distance_Dice)
+    temp.append(S5L4Distance_Dice)
+    temp.append(S6L4Distance_Dice)
+    temp.append(S7L4Distance_Dice)
+    temp.append(S8L4Distance_Dice)
+    temp.append(S9L4Distance_Dice)
+    W4DiceDistance.append(temp)
+# In[]
+DicedistArr1=np.array(W1DiceDistance)
+DicedistArr2=np.array(W2DiceDistance)
+DicedistArr3=np.array(W3DiceDistance)
+DicedistArr4=np.array(W4DiceDistance)
