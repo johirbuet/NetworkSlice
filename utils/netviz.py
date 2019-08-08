@@ -130,8 +130,7 @@ class NetViz:
         dot = Graph(format='png')
         #dot.attr(bgcolor='purple:pink', kw = "edge", style = "invis",nodesep = "0")
         dot.attr(bgcolor='purple:pink', kw = "edge", color = "yellow",nodesep = "0")
-        dot.attr(kw = "graph", nodesep = "0", ranksep = "0")
-        
+        dot.attr(kw = "graph", nodesep = "0", ranksep = "0")        
         color = ["red","green"]
         green = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]
         edgep = ["springgreen","springgreen1","springgreen2","springgreen3","springgreen4"]

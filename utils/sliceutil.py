@@ -61,7 +61,44 @@ class Slice:
         self.d1 = np.zeros_like(b1)
         self.d2 = np.zeros_like(b2)
         return W1, W2, b1, b2
-    
+    def getweightsDense4(self, nm):
+        w1,b1 = nm.layers[1].get_weights()
+        w2,b2 = nm.layers[2].get_weights()
+        w3,b3 = nm.layers[3].get_weights()
+        w4,b4 = nm.layers[4].get_weights()
+        w5,b5 = nm.layers[5].get_weights()
+
+        W1 = np.vstack([w1])
+        W2 = np.vstack([w2])
+        W3 = np.vstack([w3])
+        W4 = np.vstack([w4])
+        W5 = np.vstack([w5])
+
+        self.W1 = W1
+        self.W2 = W2 
+        self.W3 = W3
+        self.W4 = W4 
+        self.W5 = W5
+
+        self.b1 = b1
+        self.b2 = b2
+        self.b3 = b3
+        self.b4 = b4
+        self.b5 = b5
+
+        self.D1 = np.zeros_like(W1)
+        self.D2 = np.zeros_like(W2)
+        self.D3 = np.zeros_like(W3)
+        self.D4 = np.zeros_like(W4)
+        self.D5 = np.zeros_like(W5)
+
+        self.d1 = np.zeros_like(b1)
+        self.d2 = np.zeros_like(b2)
+        self.d3 = np.zeros_like(b3)
+        self.d4 = np.zeros_like(b4)
+        self.d5 = np.zeros_like(b5)
+
+        return W1, W2, W3, W4, W5, b1, b2, b3, b4, b5
     '''
     Softmax function
     '''
@@ -189,7 +226,135 @@ class Slice:
         if self.first == True:
             self.first = False
         return self.D1, self.D2, self.d1, self.d2
-    
+    def modifyThroughInterSectionDense4(self,nm, x,img_rows = 28, img_cols = 28, thr = 0):
+        X = x.reshape(img_rows*img_cols,)
+        X1 = np.dot(X,self.W1)
+        X1 = np.add(X1, self.b1)
+        X2 = np.dot(X1,self.W2)
+        X2 = np.add(X2,self.b2)
+        X3 = np.dot(X2,self.W3)
+        X3 = np.add(X3,self.b3)
+        X4 = np.dot(X3,self.W4)
+        X4 = np.add(X4,self.b4)
+        X5 = np.dot(X4,self.W5)
+        X5 = np.add(X5,self.b5)
+        X5 = self.softmax(X5)
+        #Dense-1
+        X1[X1<0]=0
+        #W1 = np.zeros_like(self.W1)
+        #W2 = np.zeros_like(self.W2)
+        #b1 = np.zeros_like(self.b1)
+        #b2 = np.zeros_like(self.b2)
+        for i in range(X1.shape[0]):
+            if X1[i] <= 0:
+                #print("Zero X1")
+                self.D1[:,i] = [0 for x in self.D1[:,i]]
+                self.d1[i] = 0
+            else:
+                if self.first == True:
+                    self.D1[:,i] = self.W1[:,i]
+                    self.d1[i] = self.b1[i]
+                else:
+                    for j in range(0,len(self.W1[:,i])):
+                        if self.W1[j,i] < 0 :
+                            self.D1[j,i] = max(self.D1[j,i], self.W1[j,i])
+                        else:
+                            self.D1[j,i] = min(self.D1[j,i], self.W1[j,i])
+                    self.d1[i] = self.b1[i]
+        #Dense -2
+        X2[X2<0]=0
+        #W1 = np.zeros_like(self.W1)
+        #W2 = np.zeros_like(self.W2)
+        #b1 = np.zeros_like(self.b1)
+        #b2 = np.zeros_like(self.b2)
+        for i in range(X2.shape[0]):
+            if X2[i] <= 0:
+                #print("Zero X1")
+                self.D2[:,i] = [0 for x in self.D2[:,i]]
+                self.d2[i] = 0
+            else:
+                if self.first == True:
+                    self.D2[:,i] = self.W2[:,i]
+                    self.d2[i] = self.b2[i]
+                else:
+                    for j in range(0,len(self.W2[:,i])):
+                        if self.W2[j,i] < 0 :
+                            self.D2[j,i] = max(self.D2[j,i], self.W2[j,i])
+                        else:
+                            self.D2[j,i] = min(self.D2[j,i], self.W2[j,i])
+                    self.d2[i] = self.b2[i]
+        #Dense -3
+        X3[X3<0]=0
+        #W1 = np.zeros_like(self.W1)
+        #W2 = np.zeros_like(self.W2)
+        #b1 = np.zeros_like(self.b1)
+        #b2 = np.zeros_like(self.b2)
+        for i in range(X3.shape[0]):
+            if X3[i] <= 0:
+                #print("Zero X1")
+                self.D3[:,i] = [0 for x in self.D3[:,i]]
+                self.d3[i] = 0
+            else:
+                if self.first == True:
+                    self.D3[:,i] = self.W3[:,i]
+                    self.d3[i] = self.b3[i]
+                else:
+                    for j in range(0,len(self.W3[:,i])):
+                        if self.W3[j,i] < 0 :
+                            self.D3[j,i] = max(self.D3[j,i], self.W3[j,i])
+                        else:
+                            self.D3[j,i] = min(self.D3[j,i], self.W3[j,i])
+                    self.d3[i] = self.b3[i]
+        #Dense-4
+        X4[X4<0]=0
+        #W1 = np.zeros_like(self.W1)
+        #W2 = np.zeros_like(self.W2)
+        #b1 = np.zeros_like(self.b1)
+        #b2 = np.zeros_like(self.b2)
+        for i in range(X4.shape[0]):
+            if X4[i] <= 0:
+                #print("Zero X1")
+                self.D4[:,i] = [0 for x in self.D4[:,i]]
+                self.d4[i] = 0
+            else:
+                if self.first == True:
+                    self.D4[:,i] = self.W4[:,i]
+                    self.d4[i] = self.b4[i]
+                else:
+                    for j in range(0,len(self.W4[:,i])):
+                        if self.W4[j,i] < 0 :
+                            self.D4[j,i] = max(self.D4[j,i], self.W4[j,i])
+                        else:
+                            self.D4[j,i] = min(self.D4[j,i], self.W4[j,i])
+                    self.d4[i] = self.b4[i]
+        #Dense-5
+        
+        
+        for i in range(X5.shape[0]):
+            if X5[i] <= thr:
+                #print("Zero X2")
+                self.D5[:,i] = [ 0 for x in self.D5[:,i]]
+                self.b5[i] = 0
+            else:
+                if self.first == True:
+                    self.D5[:,i] = self.W5[:,i]
+                    self.d5[i] = self.b5[i]
+                else:
+                    for j in range(0,len(self.W5[:,i])):
+                        if self.W5[j,i] < 0 :
+                            self.D5[j,i] = max(self.D5[j,i], self.W5[j,i])
+                        else:
+                            self.D5[j,i] = min(self.D5[j,i], self.W5[j,i])
+                        #self.D2[:,i] = self.W2[:,i]
+                    self.d5[i] = self.b5[i]
+        
+        #print("D1")
+        #print(self.D1)
+        #print("D2")
+        #print(self.D2)
+        if self.first == True:
+            self.first = False
+        return self.D1, self.D2, self.D3, self.D2, self.W5, self.d1, self.d2, self.d3 ,self.d4, self.b5
     def getLabel(self,y):
         one = [0, 1]
         zer = [1 , 0]

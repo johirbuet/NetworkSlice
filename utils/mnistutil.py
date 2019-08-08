@@ -140,7 +140,44 @@ class MNISTUitl:
                       metrics=['accuracy'])
         print(nm.summary())
         nm.fit(x_train, y_train, epochs=ep)
-        return nm, x_test, y_test
+        return nm, x_train, y_train
+    def train4(self,x_zo,y_zo,xt_zo,yt_zo,img_rows = 28, img_cols = 28,numclass = 10,ep = 20):
+        if K.image_data_format() == 'channels_first':
+            x_zo = x_zo.reshape(x_zo.shape[0], 1, img_rows, img_cols)
+            xt_zo = xt_zo.reshape(xt_zo.shape[0], 1, img_rows, img_cols)
+            input_shape = (1, img_rows, img_cols)
+        else:
+            x_zo = x_zo.reshape(x_zo.shape[0], img_rows, img_cols, 1)
+            xt_zo = xt_zo.reshape(xt_zo.shape[0], img_rows, img_cols, 1)
+            input_shape = (img_rows, img_cols, 1)
+    
+        x_train = x_zo.astype('float32')
+        x_test = xt_zo.astype('float32')
+        x_train /= 255
+        x_test /= 255
+        print('x_train shape:', x_train.shape)
+        print(x_zo.shape,x_train.shape[0], 'train samples', y_zo.shape)
+        print(x_test.shape[0], 'test samples')
+    
+        y_train = y_zo #keras.utils.to_categorical(y_zo, numclass )
+        y_test =  yt_zo #keras.utils.to_categorical(yt_zo, numclass)
+    
+        print(y_zo.shape,y_train.shape)
+        nm = keras.Sequential([
+            keras.layers.Flatten(input_shape=(img_rows, img_cols,1), name = "Input"),
+            keras.layers.Dense(49, activation=tf.nn.relu ,name = "H1"),
+            keras.layers.Dense(49, activation=tf.nn.relu ,name = "H2"),
+            keras.layers.Dense(49, activation=tf.nn.relu ,name = "H3"),
+            keras.layers.Dense(49, activation=tf.nn.relu ,name = "H4"),
+            keras.layers.Dense(numclass, activation=tf.nn.softmax, name = "output")
+        ])
+    
+        nm.compile(optimizer='adam',
+                      loss='sparse_categorical_crossentropy',
+                      metrics=['accuracy'])
+        print(nm.summary())
+        nm.fit(x_train, y_train, epochs=ep)
+        return nm, x_train, y_train
     def train3(self,x_zo,y_zo,xt_zo,yt_zo,img_rows = 28, img_cols = 28,numclass = 10,ep = 20):
         input_shape = (img_rows,img_cols,1)
         x_zo = x_zo.reshape(x_zo.shape[0], img_rows, img_cols, 1)
